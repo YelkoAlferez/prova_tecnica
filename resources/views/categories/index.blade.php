@@ -44,9 +44,13 @@ $(document).ready(function() {
                 <table id="taula" class="table table-striped table-bordered text-center">
                     @foreach ($categories as $category)
                         <tr>
+                            {{-- Id de la categoría en cuestión --}}
                             <td>{{ $category->id }}</td>
+                            {{-- Código de la categoría en cuestión --}}
                             <td>{{ $category->code }}</td>
+                            {{-- Nombre de la categoría en cuestión --}}
                             <td>{{ $category->name }}</td>
+                            {{-- Categoría padre de la categoría en cuestión --}}
                             @if ($category->parent_id === null)
                                 <td>None</td>
                             @else
@@ -58,7 +62,9 @@ $(document).ready(function() {
                                     ...
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    {{-- Editar la categoría en cuestión --}}
                                     <a class="dropdown-item edit-btn"  href="{{ route("categories.edit", $category->id) }}">Edit</a>
+                                    {{-- Eliminar la categoría en cuestión --}}
                                     <a class="dropdown-item delete-btn" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $category->id }}').submit();">Delete</a>
                                     <form id="delete-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: none;">
                                         @csrf

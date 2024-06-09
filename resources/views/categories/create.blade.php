@@ -7,7 +7,7 @@
         <form action="{{ route('categories.store') }}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="code">Codi:</label>
+                <label for="code">Code:</label>
                 <input type="text" class="form-control" id="code" name="code" required>
             </div>
             @if ($errors->has('code'))
@@ -16,17 +16,17 @@
                 </div>
             @endif
             <div class="form-group">
-                <label for="name">Nom:</label>
+                <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="form-group">
-                <label for="description">Descripció:</label>
+                <label for="description">Description:</label>
                 <textarea class="form-control" id="description" name="description" required></textarea>
             </div>
             <div class="form-group">
-                <label for="parent_id">Categoria pare</label>
+                <label for="parent_id">Parent category:</label>
                 <select class="form-control" id="parent_id" name="parent_id">
-                    <option value="">Cap</option>
+                    <option value="">None</option>
                     @foreach ($categories as $categoria)
                         @if($categoria->parent_id === null)
                             <option value="{{ $categoria->id }}">{{ $categoria->name }}</option>

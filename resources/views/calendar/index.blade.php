@@ -23,6 +23,7 @@
                 initialView: 'dayGridMonth',
                 events: @json($calendars),
                 dateClick: function(info) {
+                    {{-- Cuando pulse una fecha, mostramos el formulario pasando por parámetro la fecha en cuestión --}}
                     var url = '{{ route('calendar.create') }}?date=' + info.dateStr;
                     window.location.href = url;
                 }

@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->text('description');
-            $table->text('photos')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->decimal('price', 10, 2);
             $table->timestamps();
         });
     }

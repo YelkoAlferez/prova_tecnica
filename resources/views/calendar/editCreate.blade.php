@@ -27,6 +27,7 @@
         <h1>Create order at {{ $date->format('d/m/y') }}</h1>
         <form action="{{ route('calendar.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            {{-- Productos que ya se encuentran en el pedido en cuestión --}}
             @foreach ($productsWithOrders as $product)
                 <div class="form-group">
                     <input id="{{ $product->id }}" name="products[]" value="{{ $product->id }}" checked type="checkbox"
@@ -41,6 +42,7 @@
                     </div>
                 </div>
             @endforeach
+            {{-- Productos que no se encuentran en el pedido en cuestión pero tienen tarifa en esa fecha --}}
             @foreach ($products as $product)
                 @if (!$productsWithOrders->contains('id', $product->id))
                     <div class="form-group">

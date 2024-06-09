@@ -21,7 +21,7 @@
                     <div class="tariff-input-group">
                         <input type="date" class="form-control" name="tariffs[${tariffCounter}][start_date]" required>
                         <input type="date" class="form-control" name="tariffs[${tariffCounter}][end_date]" required>
-                        <input type="decimal" class="form-control" name="tariffs[${tariffCounter}][price]" required>
+                        <input type="number" step="0.01" class="form-control" name="tariffs[${tariffCounter}][price]" required>
                         <button type="button" class="btn btn-danger remove-tariff-btn">Delete</button>
                     </div>
                 `;
@@ -67,13 +67,14 @@
                 <label for="tariffs">Tariffs:</label>
                 <div id="tariffs-container">
                     @php $index = 0; @endphp
+                    {{-- Tarifas del producto en cuestión --}}
                     @foreach ($product->tariffs as $tariff)
                         <div class="tariff-input-group">
                             <input type="date" value="{{ $tariff->start_date }}" class="form-control"
                                 name="tariffs[{{ $index }}][start_date]" required>
                             <input type="date" value="{{ $tariff->end_date }}" class="form-control"
                                 name="tariffs[{{ $index }}][end_date]" required>
-                            <input type="decimal" value="{{ $tariff->price }}" class="form-control"
+                            <input type="number" step="0.01" value="{{ $tariff->price }}" class="form-control"
                                 name="tariffs[{{ $index }}][price]" required>
                         </div>
                     @endforeach
@@ -88,6 +89,7 @@
                 <select class="js-example-basic-multiple" style="width:100%;" name="categories[]" multiple="multiple">
                     @foreach ($categories as $category)
                         @if($selectedCategories->contains('id', $category->id))
+                        {{-- Categorías del producto en cuestión --}}
                         <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                         @else
                         <option value="{{ $category->id }}">{{ $category->name }}</option>

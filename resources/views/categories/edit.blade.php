@@ -26,7 +26,7 @@
                 <textarea class="form-control" id="description" name="description" required>{{ $categoria->description }}</textarea>
             </div>
             <div class="form-group">
-                <label for="parent_id">Parent category</label>
+                <label for="parent_id">Parent category:</label>
                 <select class="form-control" id="parent_id" name="parent_id">
                     @if ($categoria->parent_id !== null)
                         <option value="{{ $categoria->parent->id }}">{{ $categoria->parent->name }}</option>

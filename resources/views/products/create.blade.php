@@ -20,7 +20,7 @@
                     <div class="tariff-input-group">
                         <input type="date" class="form-control" name="tariffs[${tariffCounter}][start_date]" required>
                         <input type="date" class="form-control" name="tariffs[${tariffCounter}][end_date]" required>
-                        <input type="number" min="0" class="form-control" name="tariffs[${tariffCounter}][price]" required>
+                        <input type="number" step="0.01" min="0" class="form-control" name="tariffs[${tariffCounter}][price]" required>
                         <button type="button" class="btn btn-danger remove-tariff-btn">Delete</button>
                     </div>
                 `;
@@ -64,7 +64,7 @@
                     <div class="tariff-input-group">
                         <input type="date" class="form-control" name="tariffs[0][start_date]" required>
                         <input type="date" class="form-control" name="tariffs[0][end_date]" required>
-                        <input type="number" min="0" class="form-control" name="tariffs[0][price]" required>
+                        <input type="number" step="0.01" min="0" class="form-control" name="tariffs[0][price]" required>
                     </div>
                 </div>
                 <button type="button" id="add-tariff-btn" class="btn btn-success">Add Tariff</button>
