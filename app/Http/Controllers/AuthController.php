@@ -5,38 +5,75 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Throwable;
+
 
 class AuthController extends Controller
 {
-    /**
-     * Función para comprobar el login
-     */
-    public function login(Request $request)
+    public function apiLogin(Request $request)
     {
-       
-        // Comprobamos los campos del formulario login
+
         $request->validate([
             'email' => 'required',
             'password' => 'required',
-            'remember' => 'nullable',
         ]);
 
-
         $credentials = $request->only('email', 'password');
-        $remember = $request->has('remember');
 
-        // Si existe ese usuario y la contraseña es correcta, lo redirigimos a la página de inicio
-        if (Auth::attempt($credentials, $remember)) {
-            return redirect()->intended('/')->withSuccess('Successful session');
+        if (!Auth::attempt($credentials)) {
+            return response()->json([
+                'status' => false,
+                'errors' => 'Unauthorized'
+            ]);
         }
 
-        // Si no existe o si la contraseña no es correcta, redirigimos al login de nuevo con un mensaje de error
-        return redirect('/')
-        ->withErrors([
-            'password' => 'El email o la contraseña son incorrectos.',
-        ])
-        ->withInput();
+        $user = User::where('email', $request->email)->first();
+        $token = $user->createToken('API TOKEN')->plainTextToken;
 
+        return response()->json([
+            'status' => 'User loged in',
+            'token' => $token
+        ]);
+    }
+
+    public function apiLogout()
+    {
+        $user = Auth::user();
+        
+        $user->tokens()->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User loged out'
+        ]);
+    }
+
+    public function apiCreate(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required',
+                'password' => 'required',
+                'remember' => 'nullable',
+            ]);
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+        } catch (Throwable) {
+            return response()->json([
+                'errors' => 'User not created'
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'User created',
+            'token' => $user->createToken('API TOKEN')->plainTextToken
+        ]);
     }
 
     /**

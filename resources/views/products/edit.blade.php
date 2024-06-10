@@ -31,6 +31,7 @@
 
             $(document).on('click', '.remove-tariff-btn', function() {
                 $(this).parent('.tariff-input-group').remove();
+                tariffCounter--;
             });
         });
     </script>
@@ -38,22 +39,21 @@
 
 @section('content')
     <div class="container">
-        <h1>Editar {{ $product->name }}</h1>
-
+        <h1>Edit {{ $product->name }}</h1>
         <form action="{{ route('products.update', ['product' => $product->id]) }}" method="POST"
             enctype="multipart/form-data">
             @csrf
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <p>ERROR: The product has not been updated</p>
+                </div>
+            @endif
             @method('PUT')
             <div class="form-group">
                 <label for="code">Code:</label>
                 <input value="{{ $product->code }}" type="text" class="form-control" id="code" name="code"
                     required>
             </div>
-            @if ($errors->has('code'))
-                <div class="alert alert-danger">
-                    <p>This code already exists</p>
-                </div>
-            @endif
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input value="{{ $product->name }}" type="text" class="form-control" id="name" name="name"
@@ -76,9 +76,12 @@
                                 name="tariffs[{{ $index }}][end_date]" required>
                             <input type="number" step="0.01" value="{{ $tariff->price }}" class="form-control"
                                 name="tariffs[{{ $index }}][price]" required>
+                                @php if($index > 0){
+                            echo "<button type='button' class='btn btn-danger remove-tariff-btn'>Delete</button>";
+                        } @endphp
                         </div>
+                        @php $index++; @endphp
                     @endforeach
-                    @php $index++; @endphp
                 </div>
             </div>
             <button type="button" id="add-tariff-btn" class="btn btn-success">Add Tariff</button>
@@ -88,11 +91,11 @@
                 </label>
                 <select class="js-example-basic-multiple" style="width:100%;" name="categories[]" multiple="multiple">
                     @foreach ($categories as $category)
-                        @if($selectedCategories->contains('id', $category->id))
-                        {{-- Categorías del producto en cuestión --}}
-                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                        @if ($selectedCategories->contains('id', $category->id))
+                            {{-- Categorías del producto en cuestión --}}
+                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                         @else
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endif
                     @endforeach
                 </select>
@@ -100,7 +103,7 @@
             <div class="form-group">
                 <label for="photos">Photos:</label>
                 <input class="btn btn-default" id="input-file" required type="file" name="photos[]" multiple
-                    accept="application/jpeg,image/gif,image/jpg,image/png,application"/>
+                    accept="application/jpeg,image/gif,image/jpg,image/png,application" />
             </div>
             <button type="submit" class="btn btn-primary">Edit</button>
         </form>

@@ -209,6 +209,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $product->images()->delete();
+        $product->tariffs()->delete();
         $product->categories()->detach();
         $product->delete();
 

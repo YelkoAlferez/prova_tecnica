@@ -37,19 +37,19 @@
 
 @section('content')
     <div class="container">
-        <h1>Crear producte</h1>
+        <h1>Create product</h1>
 
         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <p>ERROR: The product has not been created</p>
+                </div>
+            @endif
             <div class="form-group">
                 <label for="code">Code:</label>
                 <input type="text" class="form-control" id="code" name="code" required>
             </div>
-            @if ($errors->has('code'))
-                <div class="alert alert-danger">
-                    <p>This code already exists</p>
-                </div>
-            @endif
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -64,7 +64,8 @@
                     <div class="tariff-input-group">
                         <input type="date" class="form-control" name="tariffs[0][start_date]" required>
                         <input type="date" class="form-control" name="tariffs[0][end_date]" required>
-                        <input type="number" step="0.01" min="0" class="form-control" name="tariffs[0][price]" required>
+                        <input type="number" step="0.01" min="0" class="form-control" name="tariffs[0][price]"
+                            required>
                     </div>
                 </div>
                 <button type="button" id="add-tariff-btn" class="btn btn-success">Add Tariff</button>
@@ -82,7 +83,7 @@
             <div class="form-group">
                 <label for="photos">Photos:</label>
                 <input class="btn btn-default" id="input-file" type="file" name="photos[]" multiple
-                accept="application/jpeg,image/gif,image/jpg,image/png,application" />
+                    accept="application/jpeg,image/gif,image/jpg,image/png,application" />
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>

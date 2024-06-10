@@ -19,6 +19,7 @@ if (typeof jQuery === 'undefined') {
   }
 }(jQuery);
 
+axios.defaults.withCredentials = true;
 /* ========================================================================
  * Bootstrap: modal.js v3.4.1
  * https://getbootstrap.com/docs/3.4/javascript/#modals

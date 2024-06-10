@@ -144,6 +144,7 @@ class ProductAPIController extends Controller
     public function store(Request $request)
     {
         try {
+            
             // Comprobamos los campos del formulario
             $request->validate([
                 'code' => 'required|string|unique:products',
@@ -227,6 +228,7 @@ class ProductAPIController extends Controller
             ]);
         }
         $product->images()->delete();
+        $product->tariffs()->delete();
         $product->categories()->detach();
         $product->delete();
 

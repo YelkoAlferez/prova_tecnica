@@ -1,0 +1,802 @@
+{
+	"info": {
+		"_postman_id": "e1cb7633-3b28-40c5-9567-e111cbb5deca",
+		"name": "Paths",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36173691"
+	},
+	"item": [
+		{
+			"name": "editCalendarFound",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|kgxJSoELI5vypUtePjTSAlxeKIIFZL4fi2nNnT5V1752248d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/editCalendar/2024-06-10",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"editCalendar",
+						"2024-06-10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editCalendarNotFound",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "17|miDxb7Xo5H4F7K082peTblfHpXMCXaGLrMjuCodL7892caf3",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/editCalendar/2024-11-12",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"editCalendar",
+						"2024-11-12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCalendars",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|kgxJSoELI5vypUtePjTSAlxeKIIFZL4fi2nNnT5V1752248d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/getCalendars",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"getCalendars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editCategory",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": false
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|kgxJSoELI5vypUtePjTSAlxeKIIFZL4fi2nNnT5V1752248d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/editCategory/5",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"editCategory",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CategoryUpdated",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|kgxJSoELI5vypUtePjTSAlxeKIIFZL4fi2nNnT5V1752248d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/saveCategory/5?code=5&name=Blanca&description=La carne blanca&parent_id=4",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"saveCategory",
+						"5"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "5"
+						},
+						{
+							"key": "name",
+							"value": "Blanca"
+						},
+						{
+							"key": "description",
+							"value": "La carne blanca"
+						},
+						{
+							"key": "parent_id",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CategoryNotUpdated",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|kgxJSoELI5vypUtePjTSAlxeKIIFZL4fi2nNnT5V1752248d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/saveCategory/5?code=5&name=Blanca&description=La carne blanca&parent_id=6",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"saveCategory",
+						"5"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "5"
+						},
+						{
+							"key": "name",
+							"value": "Blanca"
+						},
+						{
+							"key": "description",
+							"value": "La carne blanca"
+						},
+						{
+							"key": "parent_id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProducts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "1|MoyR9efE725DqcnXKwJExBavU56sk8NApgxwSN0Pf12da4f2",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/getProducts",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"getProducts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editProductFound",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|kgxJSoELI5vypUtePjTSAlxeKIIFZL4fi2nNnT5V1752248d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/editProduct/1",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"editProduct",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editProductNotFound",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "9|7bDQfUGJ0CFaXKxytjSalVm60ngfcIiGPS3Xm8OMb395c2e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/editProduct/2",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"editProduct",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteProductNotFound",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "17|miDxb7Xo5H4F7K082peTblfHpXMCXaGLrMjuCodL7892caf3",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/deleteProduct/2",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"deleteProduct",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteProductFound",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|kgxJSoELI5vypUtePjTSAlxeKIIFZL4fi2nNnT5V1752248d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/deleteProduct/22",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"deleteProduct",
+						"22"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "1|KEkTmlkto34oZxsFXDirq8zI84wqKgesX6Mxc9Lf9ad5915e",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "test@yahoo.es",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "studiogenesis",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "prova_tecnica.test/api/login",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "test@yahoo.es",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "studiogenesis",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|kgxJSoELI5vypUtePjTSAlxeKIIFZL4fi2nNnT5V1752248d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "code",
+							"value": "12345",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "PINEAPPLE",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "The pineapples",
+							"type": "text"
+						},
+						{
+							"key": "parent_id",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "prova_tecnica.test/api/logout",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "saveCalendar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3|E1Abqc9LG2XfKOWRc2lmZB8l4kHmHo0qb50lwWK2156f9573",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "products[0]",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "quantity[0]",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "2024-06-10",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "prova_tecnica.test/api/saveCalendar",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"saveCalendar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "storeCategory",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3|E1Abqc9LG2XfKOWRc2lmZB8l4kHmHo0qb50lwWK2156f9573",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "code",
+							"value": "388",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "SWEET",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Sweet is sweet",
+							"type": "text"
+						},
+						{
+							"key": "parent_id",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "prova_tecnica.test/api/storeCategory",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"storeCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCategory",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3|E1Abqc9LG2XfKOWRc2lmZB8l4kHmHo0qb50lwWK2156f9573",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "prova_tecnica.test/api/deleteCategory/19",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"deleteCategory",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "storeProduct",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3|E1Abqc9LG2XfKOWRc2lmZB8l4kHmHo0qb50lwWK2156f9573",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "code",
+							"value": "25",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "potatoe",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "The potatoes",
+							"type": "text"
+						},
+						{
+							"key": "tariffs[0][start_date]",
+							"value": "2024-09-24",
+							"type": "text"
+						},
+						{
+							"key": "tariffs[0][end_date]",
+							"value": "2024-10-24",
+							"type": "text"
+						},
+						{
+							"key": "tariffs[0][price]",
+							"value": "6.99",
+							"type": "text"
+						},
+						{
+							"key": "categories[0]",
+							"value": "12",
+							"type": "text"
+						},
+						{
+							"key": "photos[0]",
+							"type": "file",
+							"src": "/C:/Users/studiogenesis/Downloads/IMG_6218.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "prova_tecnica.test/api/storeProduct",
+					"host": [
+						"prova_tecnica",
+						"test"
+					],
+					"path": [
+						"api",
+						"storeProduct"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

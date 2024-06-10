@@ -17,8 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-            $categories = Category::with('parent')->get();
-            return view('categories.index', compact('categories'));
+        $categories = Category::with('parent')->get();
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -120,8 +120,9 @@ class CategoryController extends Controller
             'parent_id' => 'nullable'
         ]);
 
+        $parent = Category::find($request->parent_id);
         // Si el parent_id es 0 (no tiene categoria padre), se le asigna un null, sinó se le asigna ese parent_id
-        if ($request->parent_id == 0) {
+        if ($request->parent_id === 0 || $parent->parent_id !== null) {
             $parent_id = null;
         } else {
             $parent_id = $request->parent_id;

@@ -27,6 +27,11 @@
         <h1>Create order at {{ $date->format('d/m/y') }}</h1>
         <form action="{{ route('calendar.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <p>ERROR: The order has not been saved</p>
+                </div>
+            @endif
             {{-- Productos que ya se encuentran en el pedido en cuestión --}}
             @foreach ($productsWithOrders as $product)
                 <div class="form-group">

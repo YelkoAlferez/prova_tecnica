@@ -1,20 +1,20 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <h1>Crear categoria</h1>
+        <h1>Create category</h1>
 
 
         <form action="{{ route('categories.store') }}" method="POST">
             @csrf
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <p>ERROR: The category has not been created</p>
+                </div>
+            @endif
             <div class="form-group">
                 <label for="code">Code:</label>
                 <input type="text" class="form-control" id="code" name="code" required>
             </div>
-            @if ($errors->has('code'))
-                <div class="alert alert-danger">
-                    <p>El codi seleccionat ja existeix</p>
-                </div>
-            @endif
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
