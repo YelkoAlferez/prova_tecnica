@@ -6,6 +6,16 @@
         a {
             cursor: pointer;
         }
+        .title{
+            text-align:center;
+            margin-bottom:30px;
+        }
+        .container{
+            text-align: center;
+        }
+        .row{
+            margin-bottom: 10px;
+        }
     </style>
 @endpush
 @push('scripts')
@@ -39,10 +49,10 @@
     </script>
 @endpush
 @section('content')
-    <h2 style="text-align:center;margin-bottom:30px;">View categories</h2>
+    <h2 class="title">View categories</h2>
     <div class="container">
-        <div class="container" style="text-align: center;">
-            <div class="row" style="margin-bottom: 10px;">
+        <div class="container">
+            <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <a class="btn btn-primary btn-lg" href="{{ route('categories.create') }}">Create category</a>
                     @if (session('success'))

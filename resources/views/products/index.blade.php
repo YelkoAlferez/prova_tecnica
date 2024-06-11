@@ -6,6 +6,27 @@
         a {
             cursor: pointer;
         }
+        .title{
+            text-align:center;margin-bottom:30px;
+        }
+        .container{
+            text-align: center;
+        }
+        .row{
+            margin-bottom: 10px;
+        }
+        .alert{
+            width:50%;
+            margin:auto;
+        }
+        img{
+            width:50px;
+            height:50px;
+        }
+        span{
+            list-style: none;
+            text-align:center;
+        }
     </style>
 @endpush
 @push('scripts')
@@ -44,10 +65,10 @@
     </script>
 @endpush
 @section('content')
-    <h2 style="text-align:center;margin-bottom:30px;">View products</h2>
+    <h2 class="title">View products</h2>
     <div class="container">
-        <div class="container" style="text-align: center;">
-            <div class="row" style="margin-bottom: 10px;">
+        <div class="container">
+            <div class="row">
                 <div class="col-md-6 offset-md-3">
                     {{-- Crear un producto --}}
                     <a class="btn btn-primary btn-lg" href="{{ route('products.create') }}">Create product</a>
@@ -58,7 +79,7 @@
                 <a class="btn btn-primary btn-sm" href="{{ route('export') }}">Export to XLS</a>
             </div>
             @if (session('success'))
-                <div class="alert alert-success" style="width:50%;margin:auto;">
+                <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
@@ -74,15 +95,13 @@
                             <td>
                                 {{-- Categorías del producto en cuestión --}}
                                 @foreach ($product->categories as $categoria)
-                                    <span
-                                        style="list-style: none;text-align:center;">{{ $categoria->name }}({{ $categoria->id }})
-                                    </span><br>
+                                    <span>{{ $categoria->name }}({{ $categoria->id }})</span><br>
                                 @endforeach
                             </td>
                             <td>
                                 {{-- Imagenes del producto en cuestión --}}
                                 @foreach ($product->images as $image)
-                                    <img style="width:50px;height:50px;" src="{{ asset('storage/' . $image->image_path) }}"
+                                    <img src="{{ asset('storage/' . $image->image_path) }}"
                                         alt="Imagen del producto">
                                 @endforeach
                             </td>
