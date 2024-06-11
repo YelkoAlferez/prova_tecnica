@@ -32,7 +32,7 @@ class CategoryController extends Controller
         // Si la categoria tiene productos asignados, no se puede eliminar
         if ($categoria->products()->count() > 0) {
             return redirect()->route('categories.index')->withErrors([
-                'La categoria té productes assignats',
+                'products' => "Can't delete a category with products",
             ]);
         }
 
@@ -41,7 +41,7 @@ class CategoryController extends Controller
 
             if ($category->parent_id === $categoria->id) {
                 return redirect()->route('categories.index')->withErrors([
-                    'La categoria és una categoria pare',
+                    'parent' => "Can't delete a parent category",
                 ]);
             }
         }
@@ -49,7 +49,7 @@ class CategoryController extends Controller
         // Si no tiene productos ni es categoria padre, se elimina
         $categoria->delete();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully!');
     }
 
     /**
@@ -82,10 +82,16 @@ class CategoryController extends Controller
         ]);
 
         // Si el parent_id es 0 (no tiene categoria padre), se le asigna un null, sinó se le asigna ese parent_id
-        if ($request->parent_id == 0) {
-            $parent_id = null;
+        // Aunque se quiere assignar como categoría padre una categoría hija, no se permitirá y se le asignará un parent_id null
+        if ($request->parent_id !== null) {
+            $parent = Category::find($request->parent_id);
+            if ($parent->parent_id !== null) {
+                $parent_id = null;
+            } else {
+                $parent_id = $request->parent_id;
+            }
         } else {
-            $parent_id = $request->parent_id;
+            $parent_id = null;
         }
 
         // Actualizamos la categoria y la guardamos
@@ -94,7 +100,7 @@ class CategoryController extends Controller
         $category->description = $request->description;
         $category->parent_id = $parent_id;
         $category->save();
-        return redirect()->route('categories.index')->with('success', 'Category created successfully!');
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully!');
     }
 
     /**
@@ -120,13 +126,21 @@ class CategoryController extends Controller
             'parent_id' => 'nullable'
         ]);
 
-        $parent = Category::find($request->parent_id);
+
         // Si el parent_id es 0 (no tiene categoria padre), se le asigna un null, sinó se le asigna ese parent_id
-        if ($request->parent_id === 0 || $parent->parent_id !== null) {
-            $parent_id = null;
+        // Aunque se quiere assignar como categoría padre una categoría hija, no se permitirá y se le asignará un parent_id null
+        if ($request->parent_id !== null) {
+            $parent = Category::find($request->parent_id);
+            if ($parent->parent_id !== null) {
+                $parent_id = null;
+            } else {
+                $parent_id = $request->parent_id;
+            }
         } else {
-            $parent_id = $request->parent_id;
+            $parent_id = null;
         }
+
+
 
         // Creamos la categoria
         Category::insert([

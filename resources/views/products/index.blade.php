@@ -57,6 +57,11 @@
                 {{-- Exportar un xls de los productos --}}
                 <a class="btn btn-primary btn-sm" href="{{ route('export') }}">Export to XLS</a>
             </div>
+            @if (session('success'))
+                <div class="alert alert-success" style="width:50%;margin:auto;">
+                    {{ session('success') }}
+                </div>
+            @endif
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8">

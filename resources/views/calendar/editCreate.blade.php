@@ -14,6 +14,7 @@
                 input.name = 'quantity[]';
                 input.value = '1';
                 input.min = '1';
+                input.required = 'required';
                 container.appendChild(input);
             } else {
                 container.innerHTML = '';
@@ -27,9 +28,9 @@
         <h1>Create order at {{ $date->format('d/m/y') }}</h1>
         <form action="{{ route('calendar.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @if($errors->any())
+            @if($errors->has('quantity.*'))
                 <div class="alert alert-danger">
-                    <p>ERROR: The order has not been saved</p>
+                    <p>Quantity min value is 1</p>
                 </div>
             @endif
             {{-- Productos que ya se encuentran en el pedido en cuestión --}}
@@ -41,7 +42,7 @@
                     <div id="addQuantity-{{ $product->id }}">
                         @foreach($calendars as $calendar)
                         @if($calendar->product_id === $product->id)
-                        <input type="number" name="quantity[]" value="{{ $calendar->quantity }}" />
+                        <input type="number" name="quantity[]" min="1" required value="{{ $calendar->quantity }}" />
                         @endif
                         @endforeach
                     </div>

@@ -19,9 +19,13 @@
             $('#add-tariff-btn').click(function() {
                 var newTariffHtml = `
                     <div class="tariff-input-group">
+                        <label for="tariffs[${tariffCounter}][start_date]">Start date:</label>
                         <input type="date" class="form-control" name="tariffs[${tariffCounter}][start_date]" required>
+                        <label for="tariffs[${tariffCounter}][end_date]">End date:</label>
                         <input type="date" class="form-control" name="tariffs[${tariffCounter}][end_date]" required>
-                        <input type="number" step="0.01" class="form-control" name="tariffs[${tariffCounter}][price]" required>
+                        <label for="tariffs[${tariffCounter}][price]">Price:</label>
+                        <input type="number" step="0.01" min="0" class="form-control" name="tariffs[${tariffCounter}][price]" required>
+                        <button type="button" class="btn btn-danger remove-tariff-btn">Delete</button>
                         <button type="button" class="btn btn-danger remove-tariff-btn">Delete</button>
                     </div>
                 `;
@@ -43,25 +47,35 @@
         <form action="{{ route('products.update', ['product' => $product->id]) }}" method="POST"
             enctype="multipart/form-data">
             @csrf
-            @if($errors->any())
-                <div class="alert alert-danger">
-                    <p>ERROR: The product has not been updated</p>
-                </div>
-            @endif
             @method('PUT')
             <div class="form-group">
                 <label for="code">Code:</label>
                 <input value="{{ $product->code }}" type="text" class="form-control" id="code" name="code"
                     required>
+                @if ($errors->has('code'))
+                    <div class="alert alert-danger">
+                        <p>Wrong format at code field or not unique code</p>
+                    </div>
+                @endif
             </div>
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input value="{{ $product->name }}" type="text" class="form-control" id="name" name="name"
                     required>
+                @if ($errors->has('name'))
+                    <div class="alert alert-danger">
+                        <p>Wrong format at name field</p>
+                    </div>
+                @endif
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea class="form-control" id="description" name="description" required>{{ $product->description }}</textarea>
+                @if ($errors->has('description'))
+                    <div class="alert alert-danger">
+                        <p>Wrong format at description field</p>
+                    </div>
+                @endif
             </div>
             <div class="form-group">
                 <label for="tariffs">Tariffs:</label>
@@ -70,26 +84,44 @@
                     {{-- Tarifas del producto en cuestión --}}
                     @foreach ($product->tariffs as $tariff)
                         <div class="tariff-input-group">
+                            <label for="tariffs[{{ $index }}][start_date]">Start date:</label>
                             <input type="date" value="{{ $tariff->start_date }}" class="form-control"
                                 name="tariffs[{{ $index }}][start_date]" required>
+                            <label for="tariffs[{{ $index }}][end_date]">End date:</label>
                             <input type="date" value="{{ $tariff->end_date }}" class="form-control"
                                 name="tariffs[{{ $index }}][end_date]" required>
+                            <label for="tariffs[{{ $index }}][price]">Price:</label>
                             <input type="number" step="0.01" value="{{ $tariff->price }}" class="form-control"
                                 name="tariffs[{{ $index }}][price]" required>
-                                @php if($index > 0){
-                            echo "<button type='button' class='btn btn-danger remove-tariff-btn'>Delete</button>";
-                        } @endphp
+                            @php
+                                if ($index > 0) {
+                                    echo "<button type='button' class='btn btn-danger remove-tariff-btn'>Delete</button>";
+                            } @endphp
                         </div>
                         @php $index++; @endphp
                     @endforeach
                 </div>
             </div>
             <button type="button" id="add-tariff-btn" class="btn btn-success">Add Tariff</button>
+            @if ($errors->has('tariffs.*.end_date'))
+                <div class="alert alert-danger">
+                    <p>End date must be after start date.</p>
+                </div>
+            @elseif($errors->has('tariffs'))
+                <div class="alert alert-danger">
+                    <p>Product must have at least one tariff.</p>
+                </div>
+            @elseif($errors->has('tariffs.*'))
+                <div class="alert alert-danger">
+                    <p>Tariffs fields are required</p>
+                </div>
+            @endif
             <div class="select-container">
                 <label for="multiple-select-input">
                     Categories
                 </label>
-                <select class="js-example-basic-multiple" style="width:100%;" name="categories[]" multiple="multiple">
+                <select class="js-example-basic-multiple" style="width:100%;" required name="categories[]"
+                    multiple="multiple">
                     @foreach ($categories as $category)
                         @if ($selectedCategories->contains('id', $category->id))
                             {{-- Categorías del producto en cuestión --}}
@@ -99,11 +131,21 @@
                         @endif
                     @endforeach
                 </select>
+                @if ($errors->has('categories'))
+                    <div class="alert alert-danger">
+                        <p>Categories field is required</p>
+                    </div>
+                @endif
             </div>
             <div class="form-group">
-                <label for="photos">Photos:</label>
+                <label for="photos">Photos (jpeg/gif/jpg/png):</label>
                 <input class="btn btn-default" id="input-file" required type="file" name="photos[]" multiple
                     accept="application/jpeg,image/gif,image/jpg,image/png,application" />
+                @if ($errors->has('photos.*'))
+                    <div class="alert alert-danger">
+                        <p>Photos field is required. Accepted files: jpeg/gif/jpg/png.</p>
+                    </div>
+                @endif
             </div>
             <button type="submit" class="btn btn-primary">Edit</button>
         </form>

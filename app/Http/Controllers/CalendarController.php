@@ -63,8 +63,8 @@ class CalendarController extends Controller
     {
         // Comprobamos los campos
         $request->validate([
-            'products*' => 'filled',
-            'quantity*' => 'required'
+            'products.*' => 'nullable',
+            'quantity.*' => 'required|numeric|min:1'
         ]);
 
         $products = $request->products;
@@ -74,12 +74,6 @@ class CalendarController extends Controller
         if ($quantities === null) {
             Calendar::whereDate('order_date', $request->date)->delete();
             return redirect()->route('calendar.index')->with('success', 'Order created successfully!');
-        }
-
-        // Si existe algun campo cantidad null, significa que se ha marcado un producto pero no se ha especificado la cantidad, 
-        // por tanto se devuelve al formulario con un mensaje de error
-        if (in_array(null, $quantities)) {
-            return redirect()->back()->with('error', 'Quantity cannot be null.');
         }
 
         // Borramos los pedidos en esa fecha

@@ -76,10 +76,10 @@ class ProductController extends Controller
             'tariffs.*.start_date' => 'required|date',
             'tariffs.*.end_date' => 'required|date|after:tariffs.*.start_date',
             'tariffs.*.price' => 'required|numeric',
-            'categories' => 'nullable',
+            'categories' => 'required|array|min:1',
             'categories.*' => 'exists:categories,id',
             'photos' => 'required|array|min:1',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Actualizamos el producto
@@ -152,7 +152,7 @@ class ProductController extends Controller
             'categories' => 'required|array|min:1',
             'categories.*' => 'exists:categories,id',
             'photos' => 'required|array|min:1',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Creamos el producto
@@ -198,7 +198,7 @@ class ProductController extends Controller
             $imageModel->save();
         }
 
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
 
@@ -213,6 +213,6 @@ class ProductController extends Controller
         $product->categories()->detach();
         $product->delete();
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }
