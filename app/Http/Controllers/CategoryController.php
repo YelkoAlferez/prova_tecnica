@@ -22,37 +22,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Función para destruir una categoria
-     */
-    public function destroy($id)
-    {
-        $categories = Category::all();
-        $categoria = Category::find($id);
-
-        // Si la categoria tiene productos asignados, no se puede eliminar
-        if ($categoria->products()->count() > 0) {
-            return redirect()->route('categories.index')->withErrors([
-                'products' => "Can't delete a category with products",
-            ]);
-        }
-
-        // Si la categoria es categoria padre no se puede eliminar
-        foreach ($categories as $category) {
-
-            if ($category->parent_id === $categoria->id) {
-                return redirect()->route('categories.index')->withErrors([
-                    'parent' => "Can't delete a parent category",
-                ]);
-            }
-        }
-
-        // Si no tiene productos ni es categoria padre, se elimina
-        $categoria->delete();
-
-        return redirect()->route('categories.index')->with('success', 'Category deleted successfully!');
-    }
-
-    /**
      * Función para editar una categoria, pasandole como datos la categoria, con su resepctiva categoría padre y las demás categorias, muestra el formulario de edición
      */
     public function edit($categoria)
@@ -151,5 +120,36 @@ class CategoryController extends Controller
         ]);
 
         return redirect()->route('categories.index')->with('success', 'Category created successfully!');
+    }
+
+    /**
+     * Función para destruir una categoria
+     */
+    public function destroy($id)
+    {
+        $categories = Category::all();
+        $categoria = Category::find($id);
+
+        // Si la categoria tiene productos asignados, no se puede eliminar
+        if ($categoria->products()->count() > 0) {
+            return redirect()->route('categories.index')->withErrors([
+                'products' => "Can't delete a category with products",
+            ]);
+        }
+
+        // Si la categoria es categoria padre no se puede eliminar
+        foreach ($categories as $category) {
+
+            if ($category->parent_id === $categoria->id) {
+                return redirect()->route('categories.index')->withErrors([
+                    'parent' => "Can't delete a parent category",
+                ]);
+            }
+        }
+
+        // Si no tiene productos ni es categoria padre, se elimina
+        $categoria->delete();
+
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully!');
     }
 }

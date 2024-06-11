@@ -11,6 +11,19 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    /**
+     * Función para mostrar los productos
+     */
+    public function index()
+    {
+        $products = Product::with(['categories', 'images', 'tariffs'])->get();
+        return view('products.index', compact('products'));
+    }
+
+    /**
+     * Función para descargar un PDF con la información de un producto en concreto
+     */
     public function show($id)
     {
         $product = Product::find($id);
@@ -24,23 +37,6 @@ class ProductController extends Controller
         return $pdf->download($product->name . '.pdf');
     }
 
-    /**
-     * Función para crear un producto, se muestra el formulario de creación
-     */
-    public function create()
-    {
-        $categories = Category::all();
-        return view('products.create', compact('categories'));
-    }
-
-    /**
-     * Función para mostrar los productos
-     */
-    public function index()
-    {
-        $products = Product::with(['categories', 'images', 'tariffs'])->get();
-        return view('products.index', compact('products'));
-    }
 
     /**
      * Función para editar un producto, se muestra el formulario de edición
@@ -132,6 +128,15 @@ class ProductController extends Controller
         }
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+    }
+
+    /**
+     * Función para crear un producto, se muestra el formulario de creación
+     */
+    public function create()
+    {
+        $categories = Category::all();
+        return view('products.create', compact('categories'));
     }
 
 
