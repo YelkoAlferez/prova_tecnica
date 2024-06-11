@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CalendarPostRequest;
 use App\Models\Calendar;
 use App\Models\Product;
 use App\Models\Tariff;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CalendarController extends Controller
@@ -59,13 +61,10 @@ class CalendarController extends Controller
     /**
      * Función para guardar un pedido
      */
-    public function store(Request $request)
+    public function store(CalendarPostRequest $request) : RedirectResponse
     {
         // Comprobamos los campos
-        $request->validate([
-            'products.*' => 'nullable',
-            'quantity.*' => 'required|numeric|min:1'
-        ]);
+        $validated = $request->validated();
 
         $products = $request->products;
         $quantities = $request->quantity;

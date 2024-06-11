@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryPostRequest;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -34,21 +36,15 @@ class CategoryController extends Controller
     /**
      * Función para actualizar la categoria
      */
-    public function update(Request $request, $id)
+    public function update(CategoryPostRequest $request, $id) : RedirectResponse
     {
 
         //Comprobamos los campos del formulario
         $category = Category::find($id);
         if ($category->code !== $request->code) {
-            $request->validate([
-                'code' => 'required|unique:categories,code',
-            ]);
+            $validated = $request->safe()->only('code');
         }
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'parent_id' => 'nullable'
-        ]);
+        $validated = $request->safe()->except('code');
 
         // Si el parent_id es 0 (no tiene categoria padre), se le asigna un null, sinó se le asigna ese parent_id
         // Aunque se quiere assignar como categoría padre una categoría hija, no se permitirá y se le asignará un parent_id null
@@ -84,16 +80,11 @@ class CategoryController extends Controller
     /**
      * Función para guardar una nueva categoria
      */
-    public function store(Request $request)
+    public function store(CategoryPostRequest $request) : RedirectResponse
     {
 
         // Comprueba los campos del formulario
-        $request->validate([
-            'code' => 'required|unique:categories',
-            'name' => 'required',
-            'description' => 'required',
-            'parent_id' => 'nullable'
-        ]);
+        $validated = $request->validated();
 
 
         // Si el parent_id es 0 (no tiene categoria padre), se le asigna un null, sinó se le asigna ese parent_id

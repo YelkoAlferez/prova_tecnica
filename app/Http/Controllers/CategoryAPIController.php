@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryPostRequest;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class CategoryAPIController extends Controller
@@ -14,7 +16,7 @@ class CategoryAPIController extends Controller
     public function index()
     {
         $categories = Category::with('parent')->get();
-        if($categories === null){
+        if ($categories === null) {
             return response()->json([
                 "No categories found"
             ]);
@@ -38,28 +40,28 @@ class CategoryAPIController extends Controller
     /**
      * Función para actualizar una categoria, en caso de no poder actualizarse, muestra un error
      */
-    public function update(Request $request, $id)
+    public function update(CategoryPostRequest $request, $id): JsonResponse
     {
         try {
             // Buscamos la categoria y validamos los campos del formulario
             $category = Category::find($id);
             if ($category->code !== $request->code) {
-                $request->validate([
-                    'code' => 'required|unique:categories,code',
-                ]);
+                $validated = $request->safe()->only('code');
             }
-            $request->validate([
-                'name' => 'required',
-                'description' => 'required',
-                'parent_id' => 'nullable|exists:categories,id'
-            ]);
 
+            $validated = $request->safe()->except('code');
 
             // Si el parent_id es 0 (no tiene categoria padre), se le asigna un null, sinó se le asigna ese parent_id
-            if ($request->parent_id === 0) {
-                $parent_id = null;
+            // Aunque se quiere assignar como categoría padre una categoría hija, no se permitirá y se le asignará un parent_id null
+            if ($request->parent_id !== null) {
+                $parent = Category::find($request->parent_id);
+                if ($parent->parent_id !== null) {
+                    $parent_id = null;
+                } else {
+                    $parent_id = $request->parent_id;
+                }
             } else {
-                $parent_id = $request->parent_id;
+                $parent_id = null;
             }
 
             // Actualizamos la categoria y la guardamos
@@ -83,24 +85,24 @@ class CategoryAPIController extends Controller
     /**
      * Función para crear una categoria, en caso de no poder crearse, muestra un error
      */
-    public function store(Request $request)
+    public function store(CategoryPostRequest $request): JsonResponse
     {
         try {
             // Validamos los campos del formulario
-            $request->validate([
-                'code' => 'required|unique:categories',
-                'name' => 'required',
-                'description' => 'required',
-                'parent_id' => 'nullable'
-            ]);
+            $validated = $request->validated();
 
-            $parent = Category::find($request->parent_id);
             // Si el parent_id es 0 (no tiene categoria padre), se le asigna un null, sinó se le asigna ese parent_id
-            if ($request->parent_id === 0 || $parent->parent_id !== null) {
+        // Aunque se quiere assignar como categoría padre una categoría hija, no se permitirá y se le asignará un parent_id null
+        if ($request->parent_id !== null) {
+            $parent = Category::find($request->parent_id);
+            if ($parent->parent_id !== null) {
                 $parent_id = null;
             } else {
                 $parent_id = $request->parent_id;
             }
+        } else {
+            $parent_id = null;
+        }
 
             // Creamos una nueva categoria con esos datos
             Category::insert([
@@ -109,8 +111,7 @@ class CategoryAPIController extends Controller
                 'description' => $request->description,
                 'parent_id' => $parent_id,
             ]);
-
-        }catch(Throwable){
+        } catch (Throwable) {
             return response()->json([
                 "ERROR: Category not created"
             ]);
@@ -145,7 +146,7 @@ class CategoryAPIController extends Controller
             }
         }
 
-        if($categoria === null){
+        if ($categoria === null) {
             return response()->json([
                 "ERROR: Category not found"
             ]);

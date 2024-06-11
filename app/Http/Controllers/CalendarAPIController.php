@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CalendarPostRequest;
 use Illuminate\Http\Request;
 use App\Models\Calendar;
 use App\Models\Product;
 use App\Models\Tariff;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class CalendarAPIController extends Controller
@@ -49,14 +51,11 @@ class CalendarAPIController extends Controller
     /**
      * Función para guardar un pedido
      */
-    public function update(Request $request)
+    public function update(CalendarPostRequest $request) : JsonResponse
     {
         try {
             // Comprobamos los campos
-            $request->validate([
-                'products*' => 'filled',
-                'quantity*' => 'required'
-            ]);
+            $validated = $request->validated();
 
             $products = $request->products;
             $quantities = $request->quantity;
@@ -64,13 +63,9 @@ class CalendarAPIController extends Controller
             // Si se envia vacío, se borran los datos y se devuelve a la vista
             if ($quantities === null) {
                 Calendar::whereDate('order_date', $request->date)->delete();
-                return redirect()->route('calendar.index')->with('success', 'Order created successfully!');
-            }
-
-            // Si existe algun campo cantidad null, significa que se ha marcado un producto pero no se ha especificado la cantidad, 
-            // por tanto se devuelve al formulario con un mensaje de error
-            if (in_array(null, $quantities)) {
-                return redirect()->back()->with('error', 'Quantity cannot be null.');
+                return response()->json([
+                    'Order deleted'
+                ]);
             }
 
             // Borramos los pedidos en esa fecha

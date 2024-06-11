@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductPostRequest;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Tariff;
 use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -54,29 +56,16 @@ class ProductController extends Controller
     /**
      * Función para actualizar un producto
      */
-    public function update(Request $request, $id)
+    public function update(ProductPostRequest $request, $id) : RedirectResponse
     {
         $product = Product::find($id);
 
         // Comprobamos los campos del formulario
         if ($request->code !== $product->code) {
-            $request->validate([
-                'code' => 'required|string|unique:products',
-            ]);
+            $validated = $request->safe()->only('code');
         }
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'tariffs' => 'required|array|min:1',
-            'tariffs.*.start_date' => 'required|date',
-            'tariffs.*.end_date' => 'required|date|after:tariffs.*.start_date',
-            'tariffs.*.price' => 'required|numeric',
-            'categories' => 'required|array|min:1',
-            'categories.*' => 'exists:categories,id',
-            'photos' => 'required|array|min:1',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif',
-        ]);
+        $validated = $request->safe()->except('code');
 
         // Actualizamos el producto
         $product->code = $request->code;
@@ -143,22 +132,10 @@ class ProductController extends Controller
     /**
      * Función para guardar un nuevo producto
      */
-    public function store(Request $request)
+    public function store(ProductPostRequest $request)
     {
         // Comprobamos los campos del formulario
-        $request->validate([
-            'code' => 'required|string|unique:products',
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'tariffs' => 'required|array|min:1',
-            'tariffs.*.start_date' => 'required|date',
-            'tariffs.*.end_date' => 'required|date|after:tariffs.*.start_date',
-            'tariffs.*.price' => 'required|numeric',
-            'categories' => 'required|array|min:1',
-            'categories.*' => 'exists:categories,id',
-            'photos' => 'required|array|min:1',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif',
-        ]);
+        $validated = $request->validated();
 
         // Creamos el producto
         $product = new Product();
